@@ -2,6 +2,7 @@
 import useAuth from '@/hooks/useAuth'
 import {SearchIcon, BellIcon} from '@heroicons/react/solid'
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -29,9 +30,9 @@ function Header() {
         <div className="flex item-center space-x-2 md:space-x-10">
             <img
             src="https://rb.gy/ulxxee"
-            width={100}
-            height={100}
             className="cursor-pointer object-contain"
+            width={150}
+            height={150}
             alt="" />
 
             <ul className="hidden space-x-4 md:flex">
@@ -46,11 +47,13 @@ function Header() {
          <SearchIcon className='hidden h-6 w-6 sm:inline' />
          <p className='hidden lg:inline'>Kids</p>
          <BellIcon className= 'h-6 w-6' />
-            <img
+            <Image
             onClick={logout} 
             src="https://rb.gy/g1pwyx"
             alt=""
             className="cursor-pointer rounded"
+            width={30}
+            height={30}
              />
         </div>
     </header>

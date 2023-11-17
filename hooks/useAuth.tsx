@@ -94,20 +94,19 @@ import {
             .finally(() => setLoading(false))
         }
 
-        // memoedValue
 
-    const allValue = useMemo(() => ({
+    const memoedValue = useMemo(() => ({
      user, signIn, signUp, logout, loading, error
     }), [user, loading])
 
   return (
-  <AuthContext.Provider value={allValue}>
+  <AuthContext.Provider value={memoedValue}>
     {!initialLoading && children}
   </AuthContext.Provider>
   )
 }
 
-export default function useAuth() {
+export default function UseAuth() {
     return useContext(AuthContext)
   }
 

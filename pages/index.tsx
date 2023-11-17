@@ -1,5 +1,5 @@
 import Head from 'next/head'
-// import { Inter } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import Header from '@/components/Header'
 import Banner from '@/components/Banner'
 import requests from '@/Utils/request'
@@ -10,7 +10,7 @@ import { useRecoilValue } from 'recoil'
 import { modalState } from '@/atoms/modalAtom'
 import Modal from '@/components/Modal'
 
-// const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] })
 
 interface Props {
   netflixOriginals: Movie[]
