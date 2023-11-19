@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { Inter } from 'next/font/google'
+// import { Inter } from 'next/font/google'
 import Header from '@/components/Header'
 import Banner from '@/components/Banner'
 import requests from '@/Utils/request'
@@ -9,8 +9,12 @@ import useAuth from '@/hooks/useAuth'
 import { useRecoilValue } from 'recoil'
 import { modalState } from '@/atoms/modalAtom'
 import Modal from '@/components/Modal'
+import Plans from '@/components/Plans'
+import { Product, getProducts } from '@stripe/firestore-stripe-payments'
+import payments from '@/lib/stripe'
 
-const inter = Inter({ subsets: ['latin'] })
+
+// const inter = Inter({ subsets: ['latin'] })
 
 interface Props {
   netflixOriginals: Movie[]
@@ -21,6 +25,7 @@ interface Props {
   horrorMovies: Movie[]
   romanceMovies: Movie[]
   documentaries: Movie[]
+  products: Product[]
 }
 
 const Home = ({
@@ -32,11 +37,16 @@ const Home = ({
   horrorMovies,
   romanceMovies,
   documentaries,
+  products
 }: Props) => {
-  const { loading } = useAuth()
+  const { loading, user } = useAuth()
   const showModal = useRecoilValue(modalState)
+  const subscription = false
 
-  if(loading) return null
+  if(loading || subscription === null) return null
+
+  if (!subscription) return  <Plans products={products} />
+  
 
   return (
     <div className='relative h-screen bg-gradient-to-b lg:h-[140vh]'>
@@ -68,6 +78,12 @@ const Home = ({
 export default Home
 
 export const getServerSideProps = async () => {
+  const products = await getProducts(payments, {
+    includePrices: true,
+    activeOnly: true,
+  })
+    .then((res) => res)
+    .catch((error) => console.log(error.message))
 
   const [
     netflixOriginals,
@@ -99,6 +115,7 @@ export const getServerSideProps = async () => {
       horrorMovies: horrorMovies.results,
       romanceMovies: romanceMovies.results,
       documentaries: documentaries.results,
-    }
+      products,
+    },
   }
 }
